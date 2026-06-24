@@ -17,7 +17,7 @@ Shake the r1, press the side button, or tap the screen and the crystal ball clea
   - rabbit r1 Creations SDK (accelerometer &middot; scroll wheel &middot; side button)
   - Maximum Effort
   - Canva & Adobe Illustrator
-  - Randomly.Engineering by 'dev-kitt'
+  - Randomly.Engineering @ Rand0m.AI
   - :flying_saucer: Roswell, GA :peach:
 
 ## <span style="color:#555555"><u> **POINTS OF CONTACT** </u></span>
