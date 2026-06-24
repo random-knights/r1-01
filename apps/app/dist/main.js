@@ -1,17 +1,34 @@
 // 0rac1es - Crystal-ball oracle carousel for the Rabbit R1 (build-free dist).
 // This is the no-bundler version: assets are referenced by relative path so it
 // loads in a plain webview with NO build step. Logic mirrors src/main.js.
-// 100% static quotes - no AI, no network, no rand0m.ai code.
+//
+//   - "Rand0m Kn1ghts" (index 0, the DEFAULT landing orb) is the HOUSE oracle:
+//     it channels a random STATIC quote from a random character.
+//   - "0rac1e" is the R1-AI oracle: it asks the R1's OWN native LLM (via
+//     PluginMessageHandler) for a fresh line, with a bundled fallback so it
+//     never dead-ends in a plain browser.
+//   - The other 13 are static-quote characters (unchanged).
+//
+// The only AI is the R1's native LLM. No rand0m.ai / favorite-agent code.
 
 // ---------------------------------------------------------------------------
-// Oracle data. Quotes are verbatim parody / fair-use lines. The first entry
-// (0rac1e) is the DEFAULT: no quotes of its own; it surfaces a random quote
-// from a random character when triggered.
+// Oracle data. Quotes are verbatim parody / fair-use lines.
+//   - index 0 "Rand0m Kn1ghts": DEFAULT house oracle; surfaces a random quote
+//     from a random character.
+//   - "0rac1e": the R1-AI oracle (isAI); asks the R1's native LLM, with a
+//     bundled fallback.
 // ---------------------------------------------------------------------------
 var oracles = [
   {
-    name: '0rac1e',
+    name: 'Rand0m Kn1ghts',
     isRandom: true,
+    png: './assets/Rand0m Kn1ghts.png',
+    gif: './assets/Rand0m Kn1ghts.gif',
+    quotes: []
+  },
+  {
+    name: '0rac1e',
+    isAI: true,
     png: './assets/0rac1e.png',
     gif: './assets/0rac1e.gif',
     quotes: []
@@ -451,7 +468,32 @@ var touchStartX = 0;
 var touchStartY = 0;
 var SWIPE_MIN = 40;
 
-var elPng, elGif, elQuote, elPageNum, elDots, elOrb;
+// --- R1-AI 0rac1e (native LLM via PluginMessageHandler) ---
+var ORACLE_PROMPT =
+  'You are a mystical crystal-ball oracle. Reply with ONE short, original, ' +
+  'uplifting fortune — no preamble.';
+var LLM_TIMEOUT = 6000;      // ms to wait for a reply before falling back
+var llmPending = false;      // true while awaiting onPluginMessage
+var llmTimer = null;         // fallback timer handle
+var awaitingVoicePrompt = false; // true between longPressStart/End (PTT)
+
+// Bundled generic fortunes so 0rac1e never dead-ends (browser, or LLM timeout).
+var FALLBACK_LINES = [
+  'The path you seek is already beneath your feet.',
+  'A small step today becomes tomorrow’s leap.',
+  'What you give freely returns multiplied.',
+  'Trust the quiet voice; it knows the way.',
+  'Fortune favors the heart that keeps trying.',
+  'The clouds will part for those who keep walking.',
+  'Your next chapter begins the moment you decide.',
+  'Kindness you scatter now will bloom in time.',
+  'Doubt is only the shadow of a great idea.',
+  'The stars align for the patient and the bold.',
+  'Begin before you are ready; courage follows.',
+  'Even the longest night gives way to morning.'
+];
+
+var elPng, elGif, elQuote, elPageNum, elDots, elOrb, elNavPrev, elNavNext;
 
 document.addEventListener('DOMContentLoaded', function () {
   elPng = document.getElementById('png-background');
@@ -460,6 +502,8 @@ document.addEventListener('DOMContentLoaded', function () {
   elPageNum = document.getElementById('page-number');
   elDots = document.getElementById('page-dots');
   elOrb = document.getElementById('orb');
+  elNavPrev = document.getElementById('nav-prev');
+  elNavNext = document.getElementById('nav-next');
 
   buildDots();
   renderOracle();
@@ -492,10 +536,11 @@ function renderOracle() {
   elGif.style.backgroundImage = 'url("' + o.gif + '")';
   elGif.classList.remove('faded');
 
-  elQuote.classList.remove('visible');
+  elQuote.classList.remove('visible', 'pending');
   elQuote.textContent = '';
   quoteVisible = false;
   clearAutoHide();
+  cancelLLM();
 
   elPageNum.textContent = (currentIndex + 1) + '/' + oracles.length;
   updateDots();
@@ -511,7 +556,9 @@ function prev() { goTo(currentIndex - 1); }
 function pickQuote() {
   var o = oracles[currentIndex];
   if (o.isRandom) {
-    var pool = oracles.filter(function (x) { return !x.isRandom && x.quotes.length; });
+    // House oracle (Rand0m Kn1ghts): random character, then random quote.
+    // Exclude the house oracle and the AI 0rac1e (neither has static quotes).
+    var pool = oracles.filter(function (x) { return !x.isRandom && !x.isAI && x.quotes.length; });
     var character = pool[Math.floor(Math.random() * pool.length)];
     return character.quotes[Math.floor(Math.random() * character.quotes.length)];
   }
@@ -519,15 +566,17 @@ function pickQuote() {
   return o.quotes[Math.floor(Math.random() * o.quotes.length)];
 }
 
-function revealQuote() {
-  var quote = pickQuote();
-  if (!quote) return;
+// Render a finished line in the orb with the standard fade/fit. Shared by the
+// static oracles and the AI 0rac1e once its reply arrives.
+function showQuote(text) {
+  if (!text) return;
+  cancelLLM();
 
   elGif.classList.add('faded');
-  elQuote.textContent = quote;
-  fitQuote(quote);
+  elQuote.textContent = text;
+  fitQuote(text);
 
-  elQuote.classList.remove('visible');
+  elQuote.classList.remove('visible', 'pending');
   void elQuote.offsetWidth; // force reflow so re-trigger restarts the fade-in
   elQuote.classList.add('visible');
 
@@ -535,9 +584,20 @@ function revealQuote() {
   startAutoHide();
 }
 
+// A trigger always reveals a FRESH line. The AI 0rac1e routes to the native
+// LLM; every other oracle reveals a static (or house-random) quote.
+function revealQuote() {
+  if (oracles[currentIndex].isAI) {
+    askOracle();
+    return;
+  }
+  showQuote(pickQuote());
+}
+
 function hideQuote() {
   clearAutoHide();
-  elQuote.classList.remove('visible');
+  cancelLLM();
+  elQuote.classList.remove('visible', 'pending');
   quoteVisible = false;
   setTimeout(function () {
     elGif.classList.remove('faded');
@@ -546,8 +606,67 @@ function hideQuote() {
 }
 
 function toggleQuote() {
-  if (quoteVisible) hideQuote();
+  if (quoteVisible || llmPending) hideQuote();
   else revealQuote();
+}
+
+// ---------------------------------------------------------------------------
+// R1-AI 0rac1e: ask the R1's OWN native LLM via PluginMessageHandler.
+// Falls back to a bundled fortune in a plain browser or on timeout.
+// ---------------------------------------------------------------------------
+function showPending() {
+  elGif.classList.add('faded');
+  elQuote.textContent = 'consulting…';
+  fitQuote('consulting…');
+  elQuote.classList.remove('visible');
+  void elQuote.offsetWidth;
+  elQuote.classList.add('visible', 'pending');
+  quoteVisible = false;
+  clearAutoHide();
+}
+
+function randomFallback() {
+  return FALLBACK_LINES[Math.floor(Math.random() * FALLBACK_LINES.length)];
+}
+
+function askOracle(message) {
+  if (typeof window === 'undefined' || !window.PluginMessageHandler) {
+    showQuote(randomFallback());
+    return;
+  }
+
+  showPending();
+  llmPending = true;
+
+  clearLLMTimer();
+  llmTimer = setTimeout(function () {
+    if (llmPending) {
+      llmPending = false;
+      showQuote(randomFallback());
+    }
+  }, LLM_TIMEOUT);
+
+  try {
+    window.PluginMessageHandler.postMessage(JSON.stringify({
+      message: message || ORACLE_PROMPT,
+      useLLM: true,
+      wantsR1Response: true
+    }));
+  } catch (e) {
+    console.error('0rac1e LLM postMessage failed:', e);
+    cancelLLM();
+    showQuote(randomFallback());
+  }
+}
+
+function clearLLMTimer() {
+  if (llmTimer) { clearTimeout(llmTimer); llmTimer = null; }
+}
+
+function cancelLLM() {
+  clearLLMTimer();
+  llmPending = false;
+  awaitingVoicePrompt = false;
 }
 
 function fitQuote(text) {
@@ -639,7 +758,18 @@ function stopAccelerometer() {
 function wireInput() {
   window.addEventListener('scrollUp', prev);
   window.addEventListener('scrollDown', next);
+
+  // Short side button reveals / advances quotes.
   window.addEventListener('sideClick', revealQuote);
+
+  // PTT hold (voice): only the AI 0rac1e uses voice; other oracles reveal a
+  // quote on release.
+  window.addEventListener('longPressStart', onLongPressStart);
+  window.addEventListener('longPressEnd', onLongPressEnd);
+
+  // Nav chevrons flanking the orb change oracles (left = prev, right = next).
+  if (elNavPrev) elNavPrev.addEventListener('click', function (e) { e.stopPropagation(); prev(); });
+  if (elNavNext) elNavNext.addEventListener('click', function (e) { e.stopPropagation(); next(); });
 
   elOrb.addEventListener('click', toggleQuote);
 
@@ -671,8 +801,77 @@ function wireInput() {
 
   window.addEventListener('beforeunload', function () {
     clearAutoHide();
+    cancelLLM();
     stopAccelerometer();
   });
 }
 
-window.onPluginMessage = function () {};
+// PTT (push-to-talk) handlers. While held, the R1 captures the user's voice.
+function onLongPressStart() {
+  if (oracles[currentIndex].isAI) {
+    awaitingVoicePrompt = true;
+    showPending();
+  }
+}
+
+function onLongPressEnd() {
+  if (!oracles[currentIndex].isAI) {
+    revealQuote();
+    return;
+  }
+  // AI 0rac1e: if a transcript already arrived, askOracle() fired there;
+  // otherwise kick off the default oracle prompt so a hold always yields a
+  // fortune (timeout backstop applies).
+  if (awaitingVoicePrompt && !llmPending) {
+    awaitingVoicePrompt = false;
+    askOracle();
+  }
+}
+
+// --- Inbound messages from the R1 (LLM replies and/or voice transcripts) ---
+function extractText(data) {
+  if (data == null) return '';
+  if (typeof data === 'string') {
+    var s = data.trim();
+    if (s && (s.charAt(0) === '{' || s.charAt(0) === '[')) {
+      try { return extractText(JSON.parse(s)); } catch (e) { return s; }
+    }
+    return s;
+  }
+  if (typeof data === 'object') {
+    return (
+      data.message || data.text || data.data || data.response ||
+      data.transcript || data.transcription || data.assistantMessage ||
+      data.content || ''
+    );
+  }
+  return String(data);
+}
+
+function looksLikeTranscript(data) {
+  if (!data || typeof data !== 'object') return false;
+  if (data.transcript || data.transcription) return true;
+  var kind = (data.type || data.event || data.kind || '').toString().toLowerCase();
+  return kind.indexOf('transcript') !== -1 || kind.indexOf('speech') !== -1;
+}
+
+window.onPluginMessage = function (data) {
+  // Ignore inbound messages unless the AI 0rac1e is the current oracle.
+  if (!oracles[currentIndex].isAI) return;
+
+  // Voice: if we asked for speech and the R1 returns the transcript, re-issue
+  // the LLM call with the user's words so the oracle answers what was asked.
+  if (awaitingVoicePrompt && looksLikeTranscript(data)) {
+    var spoken = extractText(data);
+    awaitingVoicePrompt = false;
+    if (spoken) { askOracle(spoken); return; }
+  }
+
+  // Otherwise treat the payload as the LLM's answer and render it.
+  if (!llmPending && !awaitingVoicePrompt) return; // unsolicited; ignore
+  var text = extractText(data);
+  if (text) {
+    awaitingVoicePrompt = false;
+    showQuote(text);
+  }
+};

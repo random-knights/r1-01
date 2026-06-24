@@ -11,7 +11,12 @@
 <body>
   <div id="app">
     <!-- Top: page number (no oracle-name label, no instruction text) -->
-    <div id="page-number">1/14</div>
+    <div id="page-number">1/15</div>
+
+    <!-- Nav chevrons flank the orb (in the side gutters), hinting you can
+         change oracles. Tappable: left = previous, right = next. -->
+    <div id="nav-prev" class="nav-arrow" role="button" aria-label="Previous oracle">&lsaquo;</div>
+    <div id="nav-next" class="nav-arrow" role="button" aria-label="Next oracle">&rsaquo;</div>
 
     <!-- Middle: the square orb (PNG art + GIF overlay + quote) -->
     <div id="orb">
@@ -19,6 +24,9 @@
       <div id="gif-overlay"></div>
       <div id="quote-text"></div>
     </div>
+
+    <!-- Caption: hint sitting in the band between the orb and the dots. -->
+    <div id="caption">tap, click, or shake to reveal</div>
 
     <!-- Bottom: page indicator dots -->
     <div id="page-dots"></div>

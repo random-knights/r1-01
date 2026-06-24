@@ -53,14 +53,16 @@ html, body {
   text-align: center;
 }
 
-/* Middle: the square orb. Centered in the space between the top number and
-   the bottom dots. 216 x 216 leaves small side margins on the 240px screen
-   and clears both the number and the dots vertically. */
+/* Middle: the square orb. Centered in the flex band between the top number
+   and the (caption + dots). 204 x 204 leaves 18px side gutters on the 240px
+   screen for the nav chevrons and clears the number, caption, and dots
+   vertically. Layout budget on the 282px screen: page#=22 + orb-band=222
+   (art 204 centered, ~9px slack top/bottom) + caption=20 + dots=18 = 282. */
 #orb {
   flex: 1 1 auto;
   position: relative;
-  width: 216px;
-  height: 216px;
+  width: 204px;
+  height: 204px;
   margin: 0 auto;
   align-self: center;
   cursor: pointer;
@@ -100,8 +102,8 @@ html, body {
   left: 50%;
   top: 44%;                 /* a bit higher than dead center */
   transform: translate(-50%, -50%) perspective(220px) rotateX(8deg);
-  width: 150px;             /* inner safe circle, < orb diameter */
-  height: 150px;
+  width: 142px;             /* inner safe circle, < orb diameter (204px) */
+  height: 142px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -125,6 +127,55 @@ html, body {
 #quote-text.visible {
   opacity: 1;
 }
+
+/* A brief "consulting…" pending state for the R1-AI 0rac1e while it waits on
+   the native LLM. Sits in the orb just like a quote; uses the same fade. */
+#quote-text.pending {
+  opacity: 0.85;
+  font-style: italic;
+}
+
+/* Caption: hint band between the orb bottom and the page dots.
+   20px tall, clears the art (ends ~y=235) and the dots (start y=264). */
+#caption {
+  flex: 0 0 auto;
+  height: 20px;
+  line-height: 20px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  color: rgba(255, 255, 255, 0.55);
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Nav chevrons: hug the left/right edges in the 18px side gutters, vertically
+   centered on the orb band (top: 22px page# .. 244px caption-top => center
+   y=133). They never overlap the art (x=18..222), the page number, or the
+   dots. */
+.nav-arrow {
+  position: absolute;
+  top: 133px;                /* orb-band vertical center */
+  transform: translateY(-50%);
+  width: 18px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  font-size: 26px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.45);
+  cursor: pointer;
+  z-index: 4;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.nav-arrow:active {
+  color: #FE5F00;            /* rabbit orange on press */
+}
+
+#nav-prev { left: 0; }
+#nav-next { right: 0; }
 
 /* Bottom: page indicator dots. Reserved band below the orb. */
 #page-dots {

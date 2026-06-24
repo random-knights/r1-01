@@ -52,11 +52,14 @@ html, body {
   text-align: center;
 }
 
+/* 204 x 204 leaves 18px side gutters for the nav chevrons. Layout budget on
+   the 282px screen: page#=22 + orb-band=222 (art 204 centered) + caption=20
+   + dots=18 = 282. */
 #orb {
   flex: 1 1 auto;
   position: relative;
-  width: 216px;
-  height: 216px;
+  width: 204px;
+  height: 204px;
   margin: 0 auto;
   align-self: center;
   cursor: pointer;
@@ -91,8 +94,8 @@ html, body {
   left: 50%;
   top: 44%;
   transform: translate(-50%, -50%) perspective(220px) rotateX(8deg);
-  width: 150px;
-  height: 150px;
+  width: 142px;
+  height: 142px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -116,6 +119,52 @@ html, body {
 #quote-text.visible {
   opacity: 1;
 }
+
+/* Brief "consulting…" pending state for the R1-AI 0rac1e. */
+#quote-text.pending {
+  opacity: 0.85;
+  font-style: italic;
+}
+
+/* Caption: hint band between the orb bottom and the page dots. */
+#caption {
+  flex: 0 0 auto;
+  height: 20px;
+  line-height: 20px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  color: rgba(255, 255, 255, 0.55);
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Nav chevrons: hug the left/right edges in the 18px side gutters, vertically
+   centered on the orb band (center y=133). Never overlap the art (x=18..222),
+   the page number, or the dots. */
+.nav-arrow {
+  position: absolute;
+  top: 133px;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  font-size: 26px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.45);
+  cursor: pointer;
+  z-index: 4;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.nav-arrow:active {
+  color: #FE5F00;
+}
+
+#nav-prev { left: 0; }
+#nav-next { right: 0; }
 
 #page-dots {
   flex: 0 0 auto;
