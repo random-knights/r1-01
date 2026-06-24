@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Install 0rac1es on rabbit r1</title>
+  <style>
+    body { font-family: system-ui, sans-serif; background:#0E0F12; color:#ECEEF1; text-align:center; padding:28px; }
+    h1 { font-weight:600; }
+    #qr { display:inline-block; background:#fff; padding:16px; border-radius:14px; margin:18px; }
+    input { width:92%; max-width:560px; padding:10px 12px; margin:10px; border-radius:10px; border:1px solid #2E323B; background:#1B1E24; color:#ECEEF1; font-size:14px; }
+    p { color:#9AA0A8; } a { color:#FF8A65; }
+  </style>
+</head>
+<body>
+  <h1>🔮 0rac1es &mdash; rabbit r1</h1>
+  <p>On your r1: <b>creations &rarr; add via QR code</b>, then scan the code below to install.</p>
+  <input id="url" value="https://random-knights.github.io/r1-01/" />
+  <div id="qr"></div>
+  <p><small>The QR encodes your hosted creation URL. Edit the field to point at any host &mdash; the code updates live.</small></p>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script>
+    var box = document.getElementById('qr'), inp = document.getElementById('url');
+    function render() { box.innerHTML = ''; new QRCode(box, { text: inp.value, width: 256, height: 256 }); }
+    inp.addEventListener('input', render);
+    render();
+  </script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+/* 0rac1es - R1 device layout (fixed 240 x 282 px portrait).
+   Everything is sized in px against the fixed viewport so the square orb art
+   sits centered BETWEEN the top page number and the bottom page dots with no
+   overlap and no scrolling. */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 240px;
+  height: 282px;
+  background: #000;
+  color: #fff;
+  font-family: 'Providence Sans', 'Roboto', -apple-system, BlinkMacSystemFont,
+               'Segoe UI', Arial, sans-serif;
+  font-weight: 700;
+  overflow: hidden;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* If FF Providence Sans Bold is ever dropped in at src/assets/ProvidenceSans-Bold.woff2
+   this @font-face will pick it up; otherwise the bold sans stack above is used. */
+@font-face {
+  font-family: 'Providence Sans';
+  src: url('./assets/ProvidenceSans-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-display: swap;
+}
+
+#app {
+  position: relative;
+  width: 240px;
+  height: 282px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #000;
+}
+
+/* Top: page number (e.g. "1/14"). Reserved band above the orb. */
+#page-number {
+  flex: 0 0 auto;
+  height: 22px;
+  line-height: 22px;
+  font-size: 13px;
+  color: #FE5F00;          /* rabbit orange */
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+
+/* Middle: the square orb. Centered in the space between the top number and
+   the bottom dots. 216 x 216 leaves small side margins on the 240px screen
+   and clears both the number and the dots vertically. */
+#orb {
+  flex: 1 1 auto;
+  position: relative;
+  width: 216px;
+  height: 216px;
+  margin: 0 auto;
+  align-self: center;
+  cursor: pointer;
+}
+
+/* PNG orb art - the static background (scaled 1024^2 -> 216px). */
+#png-background {
+  position: absolute;
+  inset: 0;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 1;
+}
+
+/* GIF overlay - perfectly aligned on top of the PNG, fades out on reveal. */
+#gif-overlay {
+  position: absolute;
+  inset: 0;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 2;
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+}
+
+#gif-overlay.faded {
+  opacity: 0;
+}
+
+/* Quote text - white bold, constrained to a circle inside the orb so it never
+   spills past the glass. Sat slightly high in the orb. Gentle arc via a small
+   perspective tilt to echo the curve of the ball. */
+#quote-text {
+  position: absolute;
+  left: 50%;
+  top: 44%;                 /* a bit higher than dead center */
+  transform: translate(-50%, -50%) perspective(220px) rotateX(8deg);
+  width: 150px;             /* inner safe circle, < orb diameter */
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+  font-weight: 700;
+  line-height: 1.18;
+  font-size: 16px;          /* overridden per-quote by fitQuote() in main.js */
+  z-index: 3;
+  opacity: 0;
+  transition: opacity 0.45s ease-in-out;
+  pointer-events: none;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.95),
+               0 0 6px rgba(0, 0, 0, 0.85),
+               0 0 12px rgba(0, 0, 0, 0.7);
+}
+
+#quote-text.visible {
+  opacity: 1;
+}
+
+/* Bottom: page indicator dots. Reserved band below the orb. */
+#page-dots {
+  flex: 0 0 auto;
+  height: 18px;
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+
+.dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.dot.active {
+  background: #FE5F00;
+  transform: scale(1.4);
+}

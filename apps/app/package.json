@@ -1,0 +1,15 @@
+{
+  "name": "0rac1es",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "0rac1es - a crystal-ball oracle carousel for the Rabbit R1",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+}
