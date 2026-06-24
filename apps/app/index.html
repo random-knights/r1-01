@@ -10,12 +10,13 @@
 </head>
 <body>
   <div id="app">
-    <!-- Top-right: info button. Opens the About overlay. Small, in the top
-         band, clear of the centered page number. -->
-    <div id="info-button" role="button" tabindex="0" aria-label="About" title="About">&#9432;</div>
-
-    <!-- Top: page number (no oracle-name label, no instruction text) -->
-    <div id="page-number">1/15</div>
+    <!-- Top app bar: full-width grey band. Left = page count, center = title,
+         right = info button (opens the About overlay). -->
+    <div id="app-bar">
+      <div id="page-number">1/15</div>
+      <div id="app-title">oracles</div>
+      <div id="info-button" role="button" tabindex="0" aria-label="About" title="About">&#9432;</div>
+    </div>
 
     <!-- Nav chevrons flank the orb (in the side gutters), hinting you can
          change oracles. Tappable: left = previous, right = next. -->

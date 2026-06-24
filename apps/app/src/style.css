@@ -42,27 +42,58 @@ html, body {
   background: #000;
 }
 
-/* Top: page number (e.g. "1/14"). Reserved band above the orb. */
-#page-number {
+/* Top app bar: full-width grey band pinned at y=0. Holds the page count
+   (left), the title (center), and the info button (right). 28px tall. */
+#app-bar {
   flex: 0 0 auto;
-  height: 22px;
-  line-height: 22px;
-  font-size: 13px;
-  color: #FE5F00;          /* rabbit orange */
-  letter-spacing: 0.5px;
-  text-align: center;
+  position: relative;
+  width: 240px;
+  height: 28px;
+  background: #858585;       /* light grey */
+  color: #1a1a1a;            /* dark text/icons for contrast */
+  display: flex;
+  align-items: center;
+  z-index: 7;                /* above the nav chevrons, below the overlay */
 }
 
-/* Middle: the square orb. Centered in the flex band between the top number
-   and the (caption + dots). 204 x 204 leaves 18px side gutters on the 240px
-   screen for the nav chevrons and clears the number, caption, and dots
-   vertically. Layout budget on the 282px screen: page#=22 + orb-band=222
-   (art 204 centered, ~9px slack top/bottom) + caption=20 + dots=18 = 282. */
+/* Left of the bar: page number (e.g. "1/15"). */
+#page-number {
+  flex: 0 0 auto;
+  padding-left: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #1a1a1a;
+  letter-spacing: 0.5px;
+  line-height: 28px;
+  white-space: nowrap;
+}
+
+/* Center of the bar: the title "oracles". Absolutely centered on the full
+   bar width so the side items don't shift it off-center. */
+#app-title {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  height: 28px;
+  line-height: 28px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a1a1a;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+/* Middle: the square orb. Centered in the flex band between the app bar and
+   the (caption + dots). 192 x 192 leaves 24px side gutters on the 240px
+   screen for the nav chevrons and clears the bar, caption, and dots
+   vertically. Layout budget on the 282px screen: app-bar=28 + orb-band=216
+   (art 192 centered, ~12px slack top/bottom) + caption=20 + dots=18 = 282. */
 #orb {
   flex: 1 1 auto;
   position: relative;
-  width: 204px;
-  height: 204px;
+  width: 192px;
+  height: 192px;
   margin: 0 auto;
   align-self: center;
   cursor: pointer;
@@ -149,15 +180,15 @@ html, body {
   white-space: nowrap;
 }
 
-/* Nav chevrons: hug the left/right edges in the 18px side gutters, vertically
-   centered on the orb band (top: 22px page# .. 244px caption-top => center
-   y=133). They never overlap the art (x=18..222), the page number, or the
+/* Nav chevrons: hug the left/right edges in the 24px side gutters, vertically
+   centered on the orb band (top: 28px app-bar .. 244px caption-top => center
+   y=136). They never overlap the art (x=24..216), the app bar, or the
    dots. */
 .nav-arrow {
   position: absolute;
-  top: 133px;                /* orb-band vertical center */
+  top: 136px;                /* orb-band vertical center */
   transform: translateY(-50%);
-  width: 18px;
+  width: 24px;
   height: 40px;
   line-height: 40px;
   text-align: center;
@@ -201,22 +232,21 @@ html, body {
   transform: scale(1.4);
 }
 
-/* Info button: top-right corner, inside the 22px top band, clear of the
-   centered page number (which is short, e.g. "1/15"). Orange to match the
-   kitt accent. z-index above the nav chevrons (4) but below the overlay. */
+/* Info button: lives at the right edge of the app bar. Pushed right by the
+   auto margin so the page number stays at the left and the title stays
+   centered. Dark icon for contrast on the grey bar. */
 #info-button {
-  position: absolute;
-  top: 1px;
-  right: 4px;
-  width: 20px;
-  height: 20px;
-  line-height: 20px;
+  flex: 0 0 auto;
+  margin-left: auto;
+  margin-right: 6px;
+  width: 22px;
+  height: 22px;
+  line-height: 22px;
   text-align: center;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 700;
-  color: #FE5F00;          /* rabbit orange */
+  color: #1a1a1a;
   cursor: pointer;
-  z-index: 6;
   -webkit-user-select: none;
   user-select: none;
 }
