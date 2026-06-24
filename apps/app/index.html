@@ -10,6 +10,10 @@
 </head>
 <body>
   <div id="app">
+    <!-- Top-right: info button. Opens the About overlay. Small, in the top
+         band, clear of the centered page number. -->
+    <div id="info-button" role="button" tabindex="0" aria-label="About" title="About">&#9432;</div>
+
     <!-- Top: page number (no oracle-name label, no instruction text) -->
     <div id="page-number">1/15</div>
 
@@ -30,6 +34,28 @@
 
     <!-- Bottom: page indicator dots -->
     <div id="page-dots"></div>
+
+    <!-- About overlay: full-screen, dark, scrollable. Hidden until the info
+         button (or the "i" key) opens it. Tap the backdrop, the ×, or Escape
+         to dismiss. While open it pauses the oracle triggers. -->
+    <div id="about-overlay" role="dialog" aria-modal="true" aria-label="About 0rac1es" aria-hidden="true">
+      <div id="about-panel">
+        <div id="about-close" role="button" tabindex="0" aria-label="Close">&times;</div>
+        <h1 class="about-title">0rac1es &#128302;</h1>
+        <p class="about-subtitle">a Random Knights creation</p>
+
+        <p class="about-intro">A crystal-ball oracle: shake, tap, or press the side button to reveal a quote. Scroll the wheel or swipe to change oracles. The 0rac1e orb answers through the R1's own AI.</p>
+
+        <h2 class="about-h">Links</h2>
+        <ul class="about-links">
+          <li>Website — <a href="https://rand0m.ai" target="_blank" rel="noopener">rand0m.ai</a></li>
+          <li>GitHub — <a href="https://randomly.engineering" target="_blank" rel="noopener">randomly.engineering</a></li>
+          <li>YouTube — <a href="https://randomknights.xyz" target="_blank" rel="noopener">randomknights.xyz</a></li>
+        </ul>
+
+        <p class="about-credit">&copy; Random Knights, XYZ</p>
+      </div>
+    </div>
   </div>
 
   <script type="module" src="./src/main.js"></script>

@@ -200,3 +200,152 @@ html, body {
   background: #FE5F00;
   transform: scale(1.4);
 }
+
+/* Info button: top-right corner, inside the 22px top band, clear of the
+   centered page number (which is short, e.g. "1/15"). Orange to match the
+   kitt accent. z-index above the nav chevrons (4) but below the overlay. */
+#info-button {
+  position: absolute;
+  top: 1px;
+  right: 4px;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 700;
+  color: #FE5F00;          /* rabbit orange */
+  cursor: pointer;
+  z-index: 6;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+#info-button:active,
+#info-button:focus {
+  color: #fff;
+  outline: none;
+}
+
+/* About overlay: full-screen, dark, sits above the orb and everything else.
+   Hidden by default; .open shows it. Scrolls if content exceeds the screen. */
+#about-overlay {
+  position: absolute;
+  inset: 0;
+  width: 240px;
+  height: 282px;
+  background: rgba(0, 0, 0, 0.96);
+  z-index: 10;
+  display: none;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+#about-overlay.open {
+  display: block;
+}
+
+/* The readable content column inside the overlay. */
+#about-panel {
+  position: relative;
+  min-height: 282px;
+  padding: 26px 16px 18px;
+  text-align: left;
+}
+
+/* Close affordance: × in the overlay's own top-right. */
+#about-close {
+  position: absolute;
+  top: 2px;
+  right: 6px;
+  width: 22px;
+  height: 22px;
+  line-height: 20px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.75);
+  cursor: pointer;
+  z-index: 11;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+#about-close:active,
+#about-close:focus {
+  color: #FE5F00;
+  outline: none;
+}
+
+.about-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #FE5F00;          /* rabbit orange */
+  line-height: 1.1;
+  margin-bottom: 2px;
+}
+
+/* Subtitle sits just under the title: "a Random Knights creation". */
+.about-subtitle {
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 12px;
+}
+
+.about-intro {
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 12px;
+}
+
+.about-h {
+  font-size: 12px;
+  font-weight: 700;
+  color: #FE5F00;
+  letter-spacing: 0.3px;
+  margin-bottom: 4px;
+}
+
+.about-text {
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 12px;
+}
+
+/* Credit line at the foot of the panel: "© Random Knights, XYZ". */
+.about-credit {
+  font-size: 10px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.55);
+  margin-top: 12px;
+}
+
+.about-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.about-links li {
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.75);
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.about-links a {
+  color: #FE5F00;          /* rabbit orange links */
+  text-decoration: underline;
+}
+
+.about-links a:active {
+  color: #fff;
+}

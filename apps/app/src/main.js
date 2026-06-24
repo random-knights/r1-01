@@ -495,6 +495,7 @@ let quoteVisible = false;
 let autoHideTimer = null;
 let accelRunning = false;
 let lastShakeTime = 0;
+let aboutOpen = false;         // true while the About overlay is showing
 
 // Shake tuning: fire when total-g magnitude spikes past the threshold,
 // debounced so one physical shake = one quote.
@@ -535,6 +536,7 @@ const FALLBACK_LINES = [
 
 // DOM handles (assigned on DOMContentLoaded)
 let elPng, elGif, elQuote, elPageNum, elDots, elOrb, elNavPrev, elNavNext;
+let elInfoBtn, elAboutOverlay, elAboutClose;
 
 // ---------------------------------------------------------------------------
 // Init
@@ -548,6 +550,9 @@ document.addEventListener('DOMContentLoaded', () => {
   elOrb = document.getElementById('orb');
   elNavPrev = document.getElementById('nav-prev');
   elNavNext = document.getElementById('nav-next');
+  elInfoBtn = document.getElementById('info-button');
+  elAboutOverlay = document.getElementById('about-overlay');
+  elAboutClose = document.getElementById('about-close');
 
   buildDots();
   renderOracle();
@@ -592,6 +597,7 @@ function renderOracle() {
 }
 
 function goTo(index) {
+  if (aboutOpen) return;            // don't change oracles behind the overlay
   currentIndex = (index + oracles.length) % oracles.length;
   renderOracle();
 }
@@ -641,6 +647,7 @@ function showQuote(text) {
 // Works for tap, side button, and shake. The AI 0rac1e routes to the LLM;
 // every other oracle reveals a static (or house-random) quote.
 function revealQuote() {
+  if (aboutOpen) return;            // overlay swallows oracle triggers
   if (oracles[currentIndex].isAI) {
     askOracle();
     return;
@@ -662,8 +669,38 @@ function hideQuote() {
 
 // Tap toggles; side button / shake always advance to a new quote.
 function toggleQuote() {
+  if (aboutOpen) return;            // overlay swallows oracle triggers
   if (quoteVisible || llmPending) hideQuote();
   else revealQuote();
+}
+
+// ---------------------------------------------------------------------------
+// About overlay. While open, oracle triggers (shake / tap / side button /
+// long-press) and carousel nav are ignored so nothing changes behind it;
+// closing returns to the carousel exactly as it was.
+// ---------------------------------------------------------------------------
+function openAbout() {
+  if (aboutOpen) return;
+  aboutOpen = true;
+  if (elAboutOverlay) {
+    elAboutOverlay.classList.add('open');
+    elAboutOverlay.setAttribute('aria-hidden', 'false');
+    elAboutOverlay.scrollTop = 0;
+  }
+}
+
+function closeAbout() {
+  if (!aboutOpen) return;
+  aboutOpen = false;
+  if (elAboutOverlay) {
+    elAboutOverlay.classList.remove('open');
+    elAboutOverlay.setAttribute('aria-hidden', 'true');
+  }
+}
+
+function toggleAbout() {
+  if (aboutOpen) closeAbout();
+  else openAbout();
 }
 
 // ---------------------------------------------------------------------------
@@ -808,6 +845,7 @@ function handleAccel(data) {
   const now = Date.now();
   if (g > SHAKE_THRESHOLD && now - lastShakeTime > SHAKE_DEBOUNCE) {
     lastShakeTime = now;
+    if (aboutOpen) return;          // ignore shakes while the overlay is open
     console.log('Shake detected (g=' + g.toFixed(2) + ').');
     revealQuote();
   }
@@ -841,6 +879,28 @@ function wireInput() {
   if (elNavPrev) elNavPrev.addEventListener('click', (e) => { e.stopPropagation(); prev(); });
   if (elNavNext) elNavNext.addEventListener('click', (e) => { e.stopPropagation(); next(); });
 
+  // Info button opens the About overlay (keyboard-accessible via Enter/Space).
+  if (elInfoBtn) {
+    elInfoBtn.addEventListener('click', (e) => { e.stopPropagation(); openAbout(); });
+    elInfoBtn.addEventListener('keydown', (e) => {
+      if (e.code === 'Enter' || e.code === 'Space') { e.preventDefault(); openAbout(); }
+    });
+  }
+
+  // About overlay closers: the × button, and tapping the backdrop. Clicks
+  // inside the content panel must NOT dismiss (only the backdrop / × do).
+  if (elAboutClose) {
+    elAboutClose.addEventListener('click', (e) => { e.stopPropagation(); closeAbout(); });
+    elAboutClose.addEventListener('keydown', (e) => {
+      if (e.code === 'Enter' || e.code === 'Space') { e.preventDefault(); closeAbout(); }
+    });
+  }
+  if (elAboutOverlay) {
+    elAboutOverlay.addEventListener('click', (e) => {
+      if (e.target === elAboutOverlay) closeAbout(); // backdrop tap dismisses
+    });
+  }
+
   // Tap the orb to toggle a quote.
   elOrb.addEventListener('click', toggleQuote);
 
@@ -864,6 +924,15 @@ function wireInput() {
 
   // Keyboard fallback for desktop testing.
   window.addEventListener('keydown', (e) => {
+    // "i" toggles the About overlay; Escape closes it. These work regardless
+    // of overlay state (Escape only matters while open).
+    if (e.code === 'KeyI') { e.preventDefault(); toggleAbout(); return; }
+    if (e.code === 'Escape') { if (aboutOpen) { e.preventDefault(); closeAbout(); } return; }
+
+    // While the overlay is open, swallow the carousel/quote keys so nothing
+    // changes behind it. (Let focus/Tab and the close button still work.)
+    if (aboutOpen) return;
+
     switch (e.code) {
       case 'Space':       e.preventDefault(); revealQuote(); break; // Space = side button
       case 'ArrowRight':  e.preventDefault(); next(); break;
@@ -884,6 +953,7 @@ function wireInput() {
 
 // PTT (push-to-talk) handlers. While held, the R1 captures the user's voice.
 function onLongPressStart() {
+  if (aboutOpen) return;            // overlay swallows oracle triggers
   if (oracles[currentIndex].isAI) {
     // Mark that the next inbound plugin message may be the spoken transcript.
     awaitingVoicePrompt = true;
@@ -892,6 +962,7 @@ function onLongPressStart() {
 }
 
 function onLongPressEnd() {
+  if (aboutOpen) return;            // overlay swallows oracle triggers
   if (!oracles[currentIndex].isAI) {
     // Non-AI oracles: a hold-release just reveals a quote.
     revealQuote();
