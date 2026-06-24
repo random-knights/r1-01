@@ -8,7 +8,7 @@
 
 **0rac1es** &nbsp;`Words from the Rand0mly Wise` &nbsp;— a standalone crystal&#8209;ball oracle **Creation for the rabbit r1**.
 </br>
-<small>from Random Knights, XYZ &middot; a `dev-kitt` joint</small>
+<small>from Random Knights, XYZ &middot;</small>
 
 Shake the r1, press the side button, or tap the screen and the crystal ball clears to reveal a random quote from one of fourteen oracles. Spin the scroll wheel (or swipe) to wander the carousel.
 
