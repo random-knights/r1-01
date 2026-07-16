@@ -166,3 +166,9 @@ Character quotes are short parody/fair-use references to their respective works,
 [Illustrator-url]: https://www.adobe.com/creativecloud/products/illustrator.html
 [Canva]: https://img.shields.io/badge/Canva-113011.svg?&style=for-the-badge&logo=Canva&logoColor=white
 [Canva-url]: https://canva.com
+
+## Operating this repo
+
+- [RUNBOOK.md](RUNBOOK.md) - humans: how it deploys (merging to main publishes
+  the live site), roll back, what breaks and how to fix it.
+- [CODEX.md](CODEX.md) - agents: the rules that apply in this repo.
