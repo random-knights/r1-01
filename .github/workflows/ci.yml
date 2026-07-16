@@ -1,0 +1,36 @@
+# The PR gate for r1-01 (0rac1es).
+#
+# Until 2026-07-16 this repo had no PR gate: pages.yml is push-only, so nothing
+# checked a pull request. That is a bad combination here, because MERGING TO
+# MAIN PUBLISHES THE LIVE SITE - pages.yml deploys apps/app/dist straight to
+# GitHub Pages with no build and no staging. A broken dist merged is a broken
+# crystal ball on the r1, immediately. This gate is the only thing in between.
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  gate:
+    # Job name is the status-check name. Pin THIS when making it a required
+    # check.
+    name: r1-01 CI Gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Validate the site that actually ships
+        run: node .github/scripts/check-site.mjs
