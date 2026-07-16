@@ -946,3 +946,5 @@ window.onPluginMessage = function (data) {
     showQuote(text);
   }
 };
+
+function broken( {  // deliberate syntax error in the shipped bundle
