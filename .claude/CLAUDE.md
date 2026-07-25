@@ -1,6 +1,6 @@
 # Agent rules (r1-01 / 0rac1es)
 
-**Read `../CODEX.md` in this repo root and follow it. It is the authority for
+**Read `../AGENTS.md` in this repo root and follow it. It is the authority for
 this repo.** Canonical org rules live in `C:\rand0m\CODEX.md`; the repo CODEX
 restates them and adds the local specifics. `RUNBOOK.md` is the human guide.
 
@@ -19,4 +19,4 @@ The four that bite hardest here:
 
 `pages.yml` is deliberately NOT renamed to the ci/deploy-staging/deploy-prod
 standard: it is not a gate, it is not staging, and it is not tag-gated. See
-CODEX.md. Never fake a green run. Credentials are owner-only.
+AGENTS.md. Never fake a green run. Credentials are owner-only.
