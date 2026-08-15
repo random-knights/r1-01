@@ -1,6 +1,6 @@
 # RUNBOOK - r1-01 / 0rac1es (human operator)
 
-For agent rules see `CODEX.md`. `README.md` describes the creation itself; this
+For agent rules see `AGENTS.md`. `README.md` describes the creation itself; this
 is the operator path.
 
 0rac1es is a build-free static site for the rabbit r1, served by GitHub Pages at
