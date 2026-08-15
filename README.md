@@ -171,4 +171,4 @@ Character quotes are short parody/fair-use references to their respective works,
 
 - [RUNBOOK.md](RUNBOOK.md) - humans: how it deploys (merging to main publishes
   the live site), roll back, what breaks and how to fix it.
-- [CODEX.md](CODEX.md) - agents: the rules that apply in this repo.
+- [AGENTS.md](AGENTS.md) - agents: the rules that apply in this repo.

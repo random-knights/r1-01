@@ -1,8 +1,8 @@
-# CODEX - agent rules for r1-01 (0rac1es)
+# AGENTS - agent rules for r1-01 (0rac1es)
 
-Canonical rules live in `C:\rand0m\CODEX.md` (the working-root codex). This
+Canonical rules live in `C:\rand0m\AGENTS.md` (the working-root standard). This
 file restates what an agent MUST follow here and adds the r1-01 specifics. If
-the two ever disagree, the working-root codex wins.
+the two ever disagree, the working-root standard wins.
 
 r1-01 is 0rac1es: a standalone, build-free creation for the rabbit r1, served as
 a public GitHub Pages site. It is not the app; the app is `xyz`.
