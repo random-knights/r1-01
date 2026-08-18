@@ -18,7 +18,9 @@
   <input id="url" value="https://random-knights.github.io/r1-01/" />
   <div id="qr"></div>
   <p><small>The QR encodes your hosted creation URL. Edit the field to point at any host &mdash; the code updates live.</small></p>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
+          integrity="sha384-3zSEDfvllQohrq0PHL1fOXJuC/jSOO34H46t6UQfobFOmxE5BpjjaIJY5F2/bMnU"
+          crossorigin="anonymous"></script>
   <script>
     var box = document.getElementById('qr'), inp = document.getElementById('url');
     function render() { box.innerHTML = ''; new QRCode(box, { text: inp.value, width: 256, height: 256 }); }
