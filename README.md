@@ -6,7 +6,7 @@
 
 ## <span style="color:#555555"><u> **SUMMARY** </u></span>
 
-**0rac1es** &nbsp;`Words from the Rand0mly Wise` &nbsp;— a standalone crystal&#8209;ball oracle **Creation for the rabbit r1**.
+**0rac1es** &nbsp;`Words from the Rand0mly Wise` &nbsp;is a standalone crystal&#8209;ball oracle **Creation for the rabbit r1**.
 </br>
 <small>from Random Knights, XYZ &middot;</small>
 
