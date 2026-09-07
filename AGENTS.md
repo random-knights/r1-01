@@ -37,6 +37,9 @@ corruption (NUL-padded config/packed-refs, stale index.lock).
 
 ## Toolchain
 
+The browser title is `01 | Rabbit R1 + RK 0rac1es`. The owner-supplied
+favicon source is `apps/app/src/assets/01.png`.
+
 **None, and that is deliberate.** This is a BUILD-FREE creation: the site at
 `apps/app/dist/` is served as-is. There is no bundler, no package manager, no
 compile step.

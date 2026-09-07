@@ -1,10 +1,14 @@
 **<h1>Rand0m Orac1es <span style="color:#555555">///</span> Random Knights, XYZ</h1>**
 
 <p align="center">
-  <img src="assets/markdown.png" alt="Rand0m: Orac1es" title="Random Knights, XYZ">
+  <img src="assets/r1-01.png" alt="Rand0m: Orac1es" title="Random Knights, XYZ">
 </p>
 
 ## <span style="color:#555555"><u> **SUMMARY** </u></span>
+
+<p align="center">
+  <img src="assets/r1-01.gif" alt="Rand0m: Orac1es">
+</p>
 
 **0rac1es** &nbsp;`Words from the Rand0mly Wise` &nbsp;is a standalone crystal&#8209;ball oracle **Creation for the rabbit r1**.
 </br>
