@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
-"""Generate the O1-mark favicon set from 01.png.
-
-Source: C:\\Users\\kit\\Downloads\\Rand0m_AppIc0ns\\01.png (1024x1024 RGBA,
-Ø1 mark on a black rounded square).
+"""Generate the 01-mark favicon set from the checked-in owner source.
 
 Run once by hand when the source mark changes; the outputs are committed,
 not regenerated at build time (this repo is build-free per AGENTS.md).
@@ -10,8 +7,8 @@ not regenerated at build time (this repo is build-free per AGENTS.md).
 from pathlib import Path
 from PIL import Image
 
-SRC = Path(r"C:\Users\kit\Downloads\Rand0m_AppIc0ns\01.png")
 OUT = Path(__file__).parent
+SRC = OUT / "01.png"
 
 SIZES_PNG = {
     "favicon-16x16.png": 16,
