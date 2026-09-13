@@ -121,7 +121,7 @@ section Nov
 classDiagram
     Orac1es <|-- Oracle
     Orac1es : +device | rabbit r1
-    Orac1es : +org | Random Knights, XYZ
+    Orac1es : +org | Random Knights, LLC
     Orac1es : -modes() Random | Preset
     class Oracle{
       +select
@@ -150,7 +150,7 @@ If you have a suggestion that would make this better, fork the repo and open a p
 
 ## <span style="color:#555555"><u> **CREDITS** </u></span>
 
-Character quotes are short parody/fair-use references to their respective works, for entertainment. Crystal-ball art & animations by Random Knights, XYZ. <span style="color:#B387FD">**Random Knights, XYZ**</span> fully supports the consumption of tacos :taco::taco::taco: &mdash; use at your own discretion, and listen to your tum tum.
+Character quotes are short parody/fair-use references to their respective works, for entertainment. Crystal-ball art & animations by Random Knights, LLC. <span style="color:#B387FD">**Random Knights, LLC**</span> fully supports the consumption of tacos :taco::taco::taco: &mdash; use at your own discretion, and listen to your tum tum.
 
 ### **Built with**
 
