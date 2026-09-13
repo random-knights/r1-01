@@ -1,18 +1,33 @@
-**<h1>Rand0m Orac1es <span style="color:#555555">///</span> Random Knights, XYZ</h1>**
+<a name="readme-top"></a>
 
-<p align="center">
-  <img src="assets/r1-01.png" alt="Rand0m: Orac1es" title="Random Knights, XYZ">
-</p>
+<div align="center">
+  <picture>
+    <img src="assets/r1-01.png" alt="Rand0m 0rac1es" title="Random Knights | R1-01">
+  </picture>
 
-## <span style="color:#555555"><u> **SUMMARY** </u></span>
+<h3 align="center" style="color:#ff4124">Random Knights | R1-01</h3>
+
+  <p align="center">
+    🏫 <a href="https://rand0m.ai">rand0m.ai</a> 2025-2030 🛸 roswell, ga 🍑 <a href="https://randomknights.xyz">ᴚk.xyz</a> + <a href="https://randomknights.llc">ᴚk.llc</a> + <a href="https://randomknights.org">ᴚk.org</a> 🏰
+    <br />
+    🌝 <a href="https://randomly.engineering">randomly.engineering</a> & <a href="https://knightly.engineering">knightly.engineering</a> 🌚
+    <br />
+    <br />
+    <a href="https://random-knights.github.io/r1-01/">View Demo</a>
+    ·
+    <a href="https://github.com/random-knights/r1-01/issues">Report Bug</a>
+    <br />
+  </p>
+</div>
 
 <p align="center">
   <img src="assets/r1-01.gif" alt="Rand0m: Orac1es">
 </p>
 
-**0rac1es** &nbsp;`Words from the Rand0mly Wise` &nbsp;is a standalone crystal&#8209;ball oracle **Creation for the rabbit r1**.
+## **R1-01 0rac1es**
+
+&nbsp;`Words from the Rand0mly Wise` &nbsp;is a standalone crystal&#8209;ball **Creation for the rabbit r1**.
 </br>
-<small>from Random Knights, XYZ &middot;</small>
 
 Shake the r1, press the side button, or tap the screen and the crystal ball clears to reveal a random quote from one of fourteen oracles. Spin the scroll wheel (or swipe) to wander the carousel.
 
@@ -21,8 +36,6 @@ Shake the r1, press the side button, or tap the screen and the crystal ball clea
   - rabbit r1 Creations SDK (accelerometer &middot; scroll wheel &middot; side button)
   - Maximum Effort
   - Canva & Adobe Illustrator
-  - Randomly.Engineering @ Rand0m.AI
-  - :flying_saucer: Roswell, GA :peach:
 
 ## <span style="color:#555555"><u> **POINTS OF CONTACT** </u></span>
 
@@ -43,10 +56,6 @@ If any issues arise, please draft a strongly worded email and never send it to: 
 
 After ~8s of stillness the quote fades and the crystal ball animates again. (For browser testing, the spacebar stands in for the side button.)
 
-<p align="center">
-  <img src="assets/orac1es.gif" alt="Rand0m: Orac1es" title="Random Knights, XYZ">
-</p>
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## <span style="color:#FAAFA5"><u> **RUN IT** </u></span>
@@ -54,8 +63,10 @@ After ~8s of stillness the quote fades and the crystal ball animates again. (For
 It's a plain static web app &mdash; nothing to build.
 
 - **Locally:** open `apps/app/dist/index.html` in any browser.
-- **Hosted (GitHub Pages):** every push to `main` auto&#8209;deploys `apps/app/dist/` via the included Actions workflow &rarr; **https://random-knights.github.io/r1-01/**
-- **On the rabbit r1:** load that URL as a custom creation ("bring your own host"). Hardware shake/scroll/side&#8209;button fire only on the device.
+- **Hosted (GitHub Pages):** every push to `main` auto&#8209;deploys `apps/app/dist/` via the included Actions workflow
+- **On the rabbit r1:** load that URL as a custom creation ("bring your own host").
+
+<small>Hardware shake/scroll/side&#8209;button fire only on the device.</small>
 
 ## <span style="color:#555555"><u> **CORE SOLUTIONS** </u></span>
 
@@ -133,7 +144,7 @@ If you have a suggestion that would make this better, fork the repo and open a p
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-[Rand0m Kn1ghts - Discord](https://discord.gg/GK2Us54mzd) &middot; [Random Knights, XYZ - GitHub](https://github.com/random-knights)
+[Rand0m Kn1ghts - Discord](https://discord.gg/GK2Us54mzd) &middot; [Random Knights, LLC - GitHub](https://github.com/random-knights)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
