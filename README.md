@@ -1,6 +1,6 @@
 <a name="readme-top"></a>
 
-<!-- HEANDER PNG -->
+<!-- HEADER PNG -->
 
 <div align="center">
   <picture>
