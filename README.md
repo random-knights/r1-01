@@ -124,12 +124,12 @@ Character quotes are short parody/fair-use references to their respective works,
 
 ## <span style="color:#555555" name="standard"><u> **STANDARD** </u></span>
 
-| Name        | :chipmunk: | Version  |             Description             |
-| ----------- | :--------: | :------: | :---------------------------------: |
-| Earth+      |     🌎     |  v1.0.0  |        Earth Health Scoring         |
-| AiEDs       |     ⚡     |  v2.0.0  |        AI Energy Disclosure         |
-| K13         |     👑     |  v1.5.0  |        AI Summary Reporting         |
-| AI for Good |     ❤️     | &middot; | (ITU) &middot; (UN) Recommendations |
+| Name        | :chipmunk: |    Version    |             Description             |
+| ----------- | :--------: | :-----------: | :---------------------------------: |
+| Earth+      |     🌎     | v1.0.0-draft  |        Earth Health Scoring         |
+| AiEDs       |     ⚡     |    v2.1.0     |        AI Energy Disclosure         |
+| K13         |     👑     |    v2.0.0     |        AI Summary Reporting         |
+| AI for Good |     ❤️     |   &middot;    | (ITU) &middot; (UN) Recommendations |
 
 </div>
 
