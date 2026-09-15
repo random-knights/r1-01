@@ -1,0 +1,27 @@
+# Fail if this repo STANDARD version table has drifted from the one published
+# source, https://standard.rand0m.ai/versions.json.
+#
+# The logic lives once, in random-knights/.github. This file only calls it, so
+# there is nothing here to keep in step with the other repos.
+#
+# NO CREDENTIAL. This check only reads a public URL and compares. The half that
+# WRITES (opens a pull request when a version moves) lives in
+# random-knights/standard, where the version actually changes.
+name: Standard versions check
+
+on:
+  pull_request:
+    paths:
+      - README.md
+      - .github/workflows/standard-versions-check.yml
+  schedule:
+    # Weekly backstop: notices a version move even if the fan-out never ran.
+    - cron: "23 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  standard-versions:
+    uses: random-knights/.github/.github/workflows/standard-versions.yml@main
