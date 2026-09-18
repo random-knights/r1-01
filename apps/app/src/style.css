@@ -42,14 +42,14 @@ html, body {
   background: #000;
 }
 
-/* Top app bar: full-width grey band pinned at y=0. Holds the page count
+/* Top app bar: full-width gray band pinned at y=0. Holds the page count
    (left), the title (center), and the info button (right). 28px tall. */
 #app-bar {
   flex: 0 0 auto;
   position: relative;
   width: 240px;
   height: 28px;
-  background: #858585;       /* light grey */
+  background: #858585;       /* light gray */
   color: #1a1a1a;            /* dark text/icons for contrast */
   display: flex;
   align-items: center;
@@ -234,7 +234,7 @@ html, body {
 
 /* Info button: lives at the right edge of the app bar. Pushed right by the
    auto margin so the page number stays at the left and the title stays
-   centered. Dark icon for contrast on the grey bar. */
+   centered. Dark icon for contrast on the gray bar. */
 #info-button {
   flex: 0 0 auto;
   margin-left: auto;
